@@ -39,7 +39,7 @@ export const QuadGrid: React.FC<QuadGridProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+    <div className="grid grid-cols-2 gap-2 md:gap-3">
       {optionsWithStats.slice(0, 4).map((opt, index) => (
         <OutcomeCard
           key={`${opt.option}-${index}`}
