@@ -1,10 +1,10 @@
 import React from 'react';
 
 const QUAD_COLORS = {
-  1: { bg: 'linear-gradient(135deg, #2563eb, #1e40af)', border: '#3b82f6', glow: 'rgba(37, 99, 235, 0.2)' },
-  2: { bg: 'linear-gradient(135deg, #d97706, #b45309)', border: '#f59e0b', glow: 'rgba(245, 158, 11, 0.2)' },
-  3: { bg: 'linear-gradient(135deg, #dc2626, #b91c1c)', border: '#ef4444', glow: 'rgba(239, 68, 68, 0.2)' },
-  4: { bg: 'linear-gradient(135deg, #059669, #047857)', border: '#10b981', glow: 'rgba(16, 185, 129, 0.2)' },
+  1: { bg: '#3B82F6', border: '#1e40af', glow: 'rgba(59, 130, 246, 0.3)' },  // Blue
+  2: { bg: '#F59E0B', border: '#b45309', glow: 'rgba(245, 158, 11, 0.3)' },  // Yellow
+  3: { bg: '#EF4444', border: '#b91c1c', glow: 'rgba(239, 68, 68, 0.3)' },   // Red
+  4: { bg: '#10B981', border: '#047857', glow: 'rgba(16, 185, 129, 0.3)' },  // Green
 } as const;
 
 interface OutcomeCardProps {
@@ -46,8 +46,9 @@ export const OutcomeCard: React.FC<OutcomeCardProps> = ({
       `}
       style={{
         background: colors.bg,
-        border: `1.5px solid ${colors.border}`,
-        boxShadow: `0 2px 8px ${colors.glow}`,
+        border: `3px solid ${colors.border}`,
+        boxShadow: `0 4px 12px ${colors.glow}`,
+        borderRadius: '12px',
       }}
     >
       {isTheField && (
