@@ -9,6 +9,8 @@ import {
 } from "./helpers";
 import {
   txFee,
+  FRONTEND_FEE_PERCENT,
+  FRONTEND_FEE_ADDRESS,
   MIN_NERG_BOX_VALUE,
   counter_box_address,
   counter_box_nft,
@@ -509,8 +511,12 @@ export async function make_pledge(fieldBox, optionIndexSelected, pledgeSize){
   ]);
 
 
-  const requiredErg = 2100000 + pledgeNanoErgs + CHANGE_BOX_VALUE_TOTAL;
-  let need = {ERG: requiredErg};
+  // Calculate frontend fee (1% of pledge)
+  const frontendFeeNanoErgs = FRONTEND_FEE_ADDRESS 
+    ? Math.floor(pledgeNanoErgs * FRONTEND_FEE_PERCENT / 100)
+    : 0;
+
+  const requiredErg = 2100000 + pledgeNanoErgs + frontendFeeNanoErgs + CHANGE_BOX_VALUE_TOTAL;  let need = {ERG: requiredErg};
 
   // Get all wallet tokens/ERG and see if they have enough
   let have = JSON.parse(JSON.stringify(need), (key, value) => {
@@ -561,6 +567,19 @@ export async function make_pledge(fieldBox, optionIndexSelected, pledgeSize){
     },
     creationHeight: blockHeight.height,
   };
+  // Frontend fee box (only if address is configured)
+  let frontendFeeBox = null;
+  if (FRONTEND_FEE_ADDRESS && frontendFeeNanoErgs > 0) {
+    frontendFeeBox = {
+      value: frontendFeeNanoErgs.toString(),
+      ergoTree: wasm.Address.from_mainnet_str(FRONTEND_FEE_ADDRESS)
+          .to_ergo_tree()
+          .to_base16_bytes(),
+      assets: [],
+      additionalRegisters: {},
+      creationHeight: blockHeight.height,
+    };
+  }
 
 
   const outputFieldBox = {
@@ -810,7 +829,13 @@ export async function claim_winnings(collection_nft, winner_token, amount){
   // console.log(paySeller.value + payService.value + payRoyalty.value + buyerGets.value + feeBox.value)
   let transaction_to_sign = {
     inputs: inputList,
-    outputs: [proxyBox, ...change_boxes, feeBox], // Adding change and fee boxes below.
+    outputs: [
+      outputFieldBox, 
+      pledgeBox,
+      ...(frontendFeeBox ? [frontendFeeBox] : []),
+      ...change_boxes, 
+      feeBox
+    ],
     dataInputs: [],
     fee: 1000000,
   };
