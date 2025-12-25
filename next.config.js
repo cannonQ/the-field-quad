@@ -1,43 +1,52 @@
 /** @type {import('next').NextConfig} */
 
-// CHANGE THIS to match your repo name exactly
 const REPO_NAME = 'the-field-quad';
-
 const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
-  // Enable static export for GitHub Pages
   output: 'export',
-  
-  // Set basePath for GitHub Pages URL structure
   basePath: isProd ? `/${REPO_NAME}` : '',
   assetPrefix: isProd ? `/${REPO_NAME}/` : '',
-  
-  // Required for static export
   images: {
     unoptimized: true,
   },
-  
-  // Helps with GitHub Pages routing
   trailingSlash: true,
-  
   reactStrictMode: true,
   
+  // Critical: Handle WASM files properly
   webpack: (config, { isServer }) => {
+    // WASM experiments
     config.experiments = {
       ...config.experiments,
       asyncWebAssembly: true,
+      layers: true,
     };
-    
+
+    // Handle WASM files
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: 'webassembly/async',
+    });
+
+    // Prevent ergo-lib-wasm from being bundled server-side
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('ergo-lib-wasm-browser');
+    }
+
+    // Fallbacks for client
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
         net: false,
         tls: false,
+        crypto: false,
+        stream: false,
+        path: false,
       };
     }
-    
+
     return config;
   },
 };
