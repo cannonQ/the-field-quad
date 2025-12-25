@@ -32,8 +32,6 @@ import { signWalletTx } from "./utxos";
 import {encodeHex, encodeNum} from "./serializer";
 import {Address} from "@coinbarn/ergo-ts/dist/models/address";
 
-let ergolib = import("ergo-lib-wasm-browser");
-
 let ergolib = typeof window !== 'undefined' ? import("ergo-lib-wasm-browser") : Promise.resolve(null);
 
 function walletDisconnect() {
