@@ -39,8 +39,8 @@ function Home() {
     return (
       <Fade fadeKey="all-fields">
         {/* Featured Event - Quad View */}
-        {featuredField && viewMode === "quad" && (
-          <QuadView field={featuredField} />
+        {reduxFields.length > 0 && viewMode === "quad" && (
+          <QuadView field={reduxFields[0]} />
         )}
 
         {/* Other Markets Header */}
