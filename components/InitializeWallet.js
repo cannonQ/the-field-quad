@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
+//import Image from "next/image";
 // import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -396,10 +396,10 @@ export default function InitializeWallet() {
                   {/* <div className="absolute left-0 top-0 flex h-full items-center"> */}
                   <div className="flex h-full items-center">
                     <div className="relative w-8 h-8">
-                      <Image
-                        layout="fill"
+                      <img
                         className="w-full h-full object-contain"
-                        src="/assets/images/nautiluswallet.png"
+                        src={`${basePath}/assets/images/nautiluswallet.png`}
+                        alt="Nautilus Wallet"
                       />
                     </div>
                   </div>
