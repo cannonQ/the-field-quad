@@ -9,6 +9,8 @@ const { toast } = createStandaloneToast({ theme: theme });
 
 let ergolib = import("ergo-lib-wasm-browser");
 
+let ergolib = typeof window !== 'undefined' ? import("ergo-lib-wasm-browser") : Promise.resolve(null);
+
 const floatRe = new RegExp("^([0-9]*[.])?[0-9]*$");
 const naturalRe = new RegExp("^[0-9]+$");
 
