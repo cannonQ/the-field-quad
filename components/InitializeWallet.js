@@ -86,9 +86,9 @@ import Modal from "./Modal/Modal";
 import { currentHeight } from "ergofunctions/explorer";
 
 export default function InitializeWallet() {
+  const basePath = process.env.NODE_ENV === 'production' ? '/the-field-quad' : '';
   const { colorMode, toggleColorMode } = useColorMode();
   // const addressLength = useBreakpointValue({ base: 3, lg: 5 }, { ssr: true });
-
 
   const poolState = useSelector((state) => state.app);
 
