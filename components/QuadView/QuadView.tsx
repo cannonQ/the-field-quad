@@ -40,32 +40,26 @@ export const QuadView: React.FC<QuadViewProps> = ({ field }) => {
   };
 
   return (
-    <div className="w-full mb-8">
+    <div className="w-full mb-4 md:mb-6">
       {/* Event Header */}
-      <div className="mb-6">
-        <div className="text-white/50 text-xs md:text-sm uppercase tracking-widest font-medium mb-1">
-          Featured Event
-        </div>
-        
-        <h2 className="text-white text-2xl md:text-3xl font-bold mb-3">
+      <div className="mb-3 md:mb-4">
+        <h2 className="text-white text-lg md:text-2xl font-bold mb-1">
           {field.description}
         </h2>
         
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/60 text-sm">
-          <span>Pool Total: <span className="text-white font-medium">{totalPool.toFixed(2)} ERG</span></span>
-          <span className="text-white/30">•</span>
-          <span>Ends: {blockHeight ? blockToDate(field.pledge_closure_block, blockHeight) : '...'}</span>
-          <span className="text-white/30">•</span>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-white/50 text-xs md:text-sm">
+          <span>Pool: <span className="text-white/80">{totalPool.toFixed(2)} ERG</span></span>
+          <span>•</span>
+          <span>{blockHeight ? blockToDate(field.pledge_closure_block, blockHeight) : '...'}</span>
+          <span>•</span>
           <span>6% fee</span>
-          <span className="text-white/30">•</span>
-          <span className="text-green-400">Instant settle</span>
         </div>
       </div>
 
       {/* Status Banner */}
       {!isPledgingEnabled && (
-        <div className="mb-4 px-4 py-2 bg-yellow-600/20 border border-yellow-600/40 rounded-lg">
-          <span className="text-yellow-400 text-sm font-medium">
+        <div className="mb-2 md:mb-3 px-2.5 py-1.5 bg-yellow-600/20 border border-yellow-600/30 rounded">
+          <span className="text-yellow-400 text-xs md:text-sm font-medium">
             {field.marketState === 'past' ? `Winner: ${field.winner}` : 'Pledging not yet active'}
           </span>
         </div>
@@ -82,8 +76,8 @@ export const QuadView: React.FC<QuadViewProps> = ({ field }) => {
 
       {/* Field Footnote */}
       {field.pledgesOnEachOption.length >= 4 && (
-        <p className="mt-4 text-white/40 text-sm italic">
-          * The Field includes all other outcomes not listed above
+        <p className="mt-2 text-white/30 text-[10px] md:text-xs italic">
+          * The Field includes all other outcomes not listed
         </p>
       )}
 
