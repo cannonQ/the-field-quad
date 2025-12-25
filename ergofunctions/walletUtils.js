@@ -34,6 +34,8 @@ import {Address} from "@coinbarn/ergo-ts/dist/models/address";
 
 let ergolib = import("ergo-lib-wasm-browser");
 
+let ergolib = typeof window !== 'undefined' ? import("ergo-lib-wasm-browser") : Promise.resolve(null);
+
 function walletDisconnect() {
   showMsg("Disconnected from wallet", true);
   localStorage.removeItem("wallet");
