@@ -1,0 +1,28 @@
+module.exports = {
+  // images: {
+  //   domains: ['cloudflare-ipfs.com', 'ipfs.io', 'ipfs.blockfrost.dev', 'skyharbor.mypinata.cloud', 'skyharbor.mo.cloudinary.net', 'skyharbor-storage.fra1.cdn.digitaloceanspaces.com'],
+  //   formats: ['image/avif', 'image/webp'],
+  // },
+  reactStrictMode: false,
+  experimental: {
+    images: {
+      unoptimized: true,
+    },
+  },
+  webpack(config, { isServer, dev }) {
+    const experiments = config.experiments || {};
+    config.experiments = { ...experiments, asyncWebAssembly: true };
+    // config.output.webassemblyModuleFilename = 'static/wasm/[modulehash].wasm'
+    config.output.webassemblyModuleFilename =
+      isServer && !dev ? "../static/wasm/[id].wasm" : "static/wasm/[id].wasm";
+
+    config.resolve.fallback = {
+      ...config.resolve.fallback, // if you miss it, all the other options in fallback, specified
+      // by next.js will be dropped. Doesn't make much sense, but how it is
+      fs: false, // the solution
+    };
+
+    return config;
+  },
+  presets: ["next/babel"],
+};
