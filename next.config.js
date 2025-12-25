@@ -1,28 +1,45 @@
-module.exports = {
-  // images: {
-  //   domains: ['cloudflare-ipfs.com', 'ipfs.io', 'ipfs.blockfrost.dev', 'skyharbor.mypinata.cloud', 'skyharbor.mo.cloudinary.net', 'skyharbor-storage.fra1.cdn.digitaloceanspaces.com'],
-  //   formats: ['image/avif', 'image/webp'],
-  // },
-  reactStrictMode: false,
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
+/** @type {import('next').NextConfig} */
+
+// CHANGE THIS to match your repo name exactly
+const REPO_NAME = 'the-field-quad';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+const nextConfig = {
+  // Enable static export for GitHub Pages
+  output: 'export',
+  
+  // Set basePath for GitHub Pages URL structure
+  basePath: isProd ? `/${REPO_NAME}` : '',
+  assetPrefix: isProd ? `/${REPO_NAME}/` : '',
+  
+  // Required for static export
+  images: {
+    unoptimized: true,
   },
-  webpack(config, { isServer, dev }) {
-    const experiments = config.experiments || {};
-    config.experiments = { ...experiments, asyncWebAssembly: true };
-    // config.output.webassemblyModuleFilename = 'static/wasm/[modulehash].wasm'
-    config.output.webassemblyModuleFilename =
-      isServer && !dev ? "../static/wasm/[id].wasm" : "static/wasm/[id].wasm";
-
-    config.resolve.fallback = {
-      ...config.resolve.fallback, // if you miss it, all the other options in fallback, specified
-      // by next.js will be dropped. Doesn't make much sense, but how it is
-      fs: false, // the solution
+  
+  // Helps with GitHub Pages routing
+  trailingSlash: true,
+  
+  reactStrictMode: true,
+  
+  webpack: (config, { isServer }) => {
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
     };
-
+    
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
     return config;
   },
-  presets: ["next/babel"],
 };
+
+module.exports = nextConfig;
