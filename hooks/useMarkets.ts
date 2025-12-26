@@ -17,8 +17,52 @@ export interface Market {
   ableToPledge: boolean;
   isPast: boolean;
   winner?: string;
+  category: string;
   // Reference to the original Field object for make_pledge
   _field: Field;
+}
+
+// Default categories for the v3 UI
+const DEFAULT_CATEGORIES = [
+  'NCAA',
+  'NFL',
+  'NBA',
+  'MLB',
+  'POLITICS',
+  'ENTERTAINMENT',
+  'CRYPTO',
+  'OTHER',
+];
+
+/**
+ * Infer category from market description
+ */
+function inferCategory(description: string): string {
+  const desc = description.toLowerCase();
+
+  if (desc.includes('ncaa') || desc.includes('march madness') || desc.includes('college')) {
+    return 'NCAA';
+  }
+  if (desc.includes('nfl') || desc.includes('super bowl') || desc.includes('football')) {
+    return 'NFL';
+  }
+  if (desc.includes('nba') || desc.includes('basketball')) {
+    return 'NBA';
+  }
+  if (desc.includes('mlb') || desc.includes('baseball') || desc.includes('world series')) {
+    return 'MLB';
+  }
+  if (desc.includes('election') || desc.includes('president') || desc.includes('congress') || desc.includes('vote')) {
+    return 'POLITICS';
+  }
+  if (desc.includes('oscar') || desc.includes('grammy') || desc.includes('emmy') || desc.includes('movie')) {
+    return 'ENTERTAINMENT';
+  }
+  if (desc.includes('bitcoin') || desc.includes('btc') || desc.includes('eth') || desc.includes('crypto')) {
+    return 'CRYPTO';
+  }
+
+  return 'OTHER';
 }
 
 /**
@@ -56,6 +100,7 @@ function fieldToMarket(field: Field, index: number): Market {
     ableToPledge: field.ableToPledge,
     isPast: !field.ableToPledge || field.marketState !== 'active',
     winner: field.winner !== -1 ? String(field.winner) : undefined,
+    category: inferCategory(field.description),
     _field: field, // Keep reference for make_pledge
   };
 }
@@ -72,11 +117,29 @@ export function useMarkets() {
   const featuredMarket = markets[0] || null;
   const otherMarkets = markets.slice(1);
 
+  // Group markets by category for v3 UI
+  const marketsByCategory: Record<string, Market[]> = {};
+  DEFAULT_CATEGORIES.forEach((cat) => {
+    marketsByCategory[cat] = [];
+  });
+  markets.forEach((market) => {
+    if (marketsByCategory[market.category]) {
+      marketsByCategory[market.category].push(market);
+    } else {
+      marketsByCategory['OTHER'].push(market);
+    }
+  });
+
+  // Get categories that have markets (for display)
+  const categories = DEFAULT_CATEGORIES;
+
   return {
     markets,
     loading,
     error,
     featuredMarket,
-    otherMarkets
+    otherMarkets,
+    categories,
+    marketsByCategory,
   };
 }
