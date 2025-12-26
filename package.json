@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-  "dev": "next dev",
-  "build": "next build && next export",
-  "start": "next start",
-  "lint": "next lint",
-  "export": "next export"
-},
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export"
+  },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
@@ -22,6 +22,7 @@
     "@heroicons/react": "^2.0.18",
     "@reduxjs/toolkit": "^1.8.4",
     "@vercel/analytics": "^0.1.8",
+    "clsx": "^2.1.1",
     "ergo-lib-wasm-browser": "^0.18.0",
     "framer-motion": "^6.5.1",
     "graphql": "^16.7.1",
