@@ -25,7 +25,7 @@ export function QuadView({ market, compact = false }: QuadViewProps) {
   const colors: Array<'blue' | 'yellow' | 'red' | 'green'> = ['blue', 'yellow', 'red', 'green'];
 
   return (
-    <div className={`w-full ${compact ? 'max-w-xs' : 'max-w-3xl'} mx-auto`}>
+    <div className="w-full">
       <div className={`mb-4 text-left px-4 ${compact ? 'mb-3' : 'mb-6'}`}>
         <h2 className={`${compact ? 'text-base' : 'text-xl md:text-2xl'} font-bold text-white mb-1`}>
           FEATURED EVENT : {market.description}
