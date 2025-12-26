@@ -7,7 +7,7 @@ interface QuadFrameProps {
 
 export function QuadFrame({ children, compact = false }: QuadFrameProps) {
   return (
-    <div className={`relative ${compact ? 'pt-8 pb-2 px-1' : 'pt-10 pb-4 px-2'} w-full ${compact ? 'max-w-[400px]' : 'max-w-[600px]'} mx-auto`}>
+    <div className={`relative ${compact ? 'pt-8 pb-2 px-1' : 'pt-10 pb-4 px-2'} w-full`}>
       {/* Decorative "Luggage Tag" Handle */}
       <div className={`absolute ${compact ? 'top-1 left-1/2' : 'top-2 left-1/2'} -translate-x-1/2 ${compact ? 'w-28' : 'w-40'} ${compact ? 'h-7' : 'h-10'} z-0`}>
         {/* The Handle Bar */}
@@ -15,7 +15,7 @@ export function QuadFrame({ children, compact = false }: QuadFrameProps) {
       </div>
 
       {/* Connection Circles */}
-      <div className={`absolute ${compact ? 'top-6' : 'top-8'} left-1/2 -translate-x-1/2 ${compact ? 'w-[calc(100%+4px)]' : 'w-[calc(100%+8px)]'} flex justify-between ${compact ? 'px-8' : 'px-12'} z-20 pointer-events-none`} style={{ maxWidth: compact ? '404px' : '608px' }}>
+      <div className={`absolute ${compact ? 'top-6' : 'top-8'} left-1/2 -translate-x-1/2 w-full flex justify-between ${compact ? 'px-8' : 'px-12'} z-20 pointer-events-none`}>
         {/* Blue connection (Top Left side) */}
         <div className={`${compact ? 'w-4 h-4' : 'w-5 h-5'} bg-[#0a0a0a] rounded-full border-[3px] border-[#3B82F6] shadow-[0_0_10px_rgba(59,130,246,0.5)] transform -translate-y-1/2 ${compact ? 'translate-x-2' : 'translate-x-4'}`} />
 
